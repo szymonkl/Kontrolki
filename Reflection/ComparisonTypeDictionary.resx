@@ -117,58 +117,28 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AccountNumber" xml:space="preserve">
-    <value>Numer konta</value>
+  <data name="AreEqual" xml:space="preserve">
+    <value>jest równy(-a)</value>
   </data>
-  <data name="Bonus" xml:space="preserve">
-    <value>Kwota podwyżki</value>
+  <data name="AreNotEqual" xml:space="preserve">
+    <value>nie jest równy(-a)</value>
   </data>
-  <data name="BonusPercentage" xml:space="preserve">
-    <value>Procent podwyżki</value>
+  <data name="Contains" xml:space="preserve">
+    <value>zawiera</value>
   </data>
-  <data name="Boss" xml:space="preserve">
-    <value>Kierownik</value>
+  <data name="GreatherOrEqual" xml:space="preserve">
+    <value>jest większy(-a) lub równy(-a)</value>
   </data>
-  <data name="Department" xml:space="preserve">
-    <value>Dział</value>
+  <data name="GreatherThan" xml:space="preserve">
+    <value>jest większy(-a)</value>
   </data>
-  <data name="Employees" xml:space="preserve">
-    <value>Pracownicy</value>
+  <data name="LessOrEqual" xml:space="preserve">
+    <value>jest mniejszy(-a) lub równy(-a)</value>
   </data>
-  <data name="FavouriteColor" xml:space="preserve">
-    <value>Ulubiony kolor</value>
+  <data name="LessThan" xml:space="preserve">
+    <value>jest mniejszy(-a)</value>
   </data>
-  <data name="FavouriteFood" xml:space="preserve">
-    <value>Ulubiona potrawa</value>
-  </data>
-  <data name="Filter" xml:space="preserve">
-    <value>Filtruj</value>
-  </data>
-  <data name="Hobby" xml:space="preserve">
-    <value>Hobby</value>
-  </data>
-  <data name="Imie" xml:space="preserve">
-    <value>Imię</value>
-  </data>
-  <data name="KodPocztowy" xml:space="preserve">
-    <value>Kod pocztowy</value>
-  </data>
-  <data name="Miasto" xml:space="preserve">
-    <value>Miasto</value>
-  </data>
-  <data name="Nazwisko" xml:space="preserve">
-    <value>Nazwisko</value>
-  </data>
-  <data name="Panstwo" xml:space="preserve">
-    <value>Państwo</value>
-  </data>
-  <data name="Salary" xml:space="preserve">
-    <value>Wynagrodzenie</value>
-  </data>
-  <data name="Ulica" xml:space="preserve">
-    <value>Ulica</value>
-  </data>
-  <data name="Wiek" xml:space="preserve">
-    <value>Wiek</value>
+  <data name="NotContains" xml:space="preserve">
+    <value>nie zawiera</value>
   </data>
 </root>

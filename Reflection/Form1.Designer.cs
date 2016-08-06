@@ -42,7 +42,7 @@
             this.gbTextBoxes.Location = new System.Drawing.Point(12, 12);
             this.gbTextBoxes.Name = "gbTextBoxes";
             this.gbTextBoxes.Padding = new System.Windows.Forms.Padding(4);
-            this.gbTextBoxes.Size = new System.Drawing.Size(334, 513);
+            this.gbTextBoxes.Size = new System.Drawing.Size(256, 513);
             this.gbTextBoxes.TabIndex = 0;
             this.gbTextBoxes.TabStop = false;
             this.gbTextBoxes.Text = "Dane podstawowe";
@@ -59,17 +59,17 @@
             // 
             // gbFinanse
             // 
-            this.gbFinanse.Location = new System.Drawing.Point(352, 12);
+            this.gbFinanse.Location = new System.Drawing.Point(293, 12);
             this.gbFinanse.Name = "gbFinanse";
             this.gbFinanse.Padding = new System.Windows.Forms.Padding(4);
-            this.gbFinanse.Size = new System.Drawing.Size(334, 476);
+            this.gbFinanse.Size = new System.Drawing.Size(263, 476);
             this.gbFinanse.TabIndex = 1;
             this.gbFinanse.TabStop = false;
             this.gbFinanse.Text = "Inne dane";
             // 
             // gbUlubione
             // 
-            this.gbUlubione.Location = new System.Drawing.Point(692, 12);
+            this.gbUlubione.Location = new System.Drawing.Point(562, 12);
             this.gbUlubione.Name = "gbUlubione";
             this.gbUlubione.Padding = new System.Windows.Forms.Padding(4);
             this.gbUlubione.Size = new System.Drawing.Size(274, 187);
@@ -79,9 +79,9 @@
             // 
             // gbPracownicy
             // 
-            this.gbPracownicy.Location = new System.Drawing.Point(693, 205);
+            this.gbPracownicy.Location = new System.Drawing.Point(562, 205);
             this.gbPracownicy.Name = "gbPracownicy";
-            this.gbPracownicy.Size = new System.Drawing.Size(273, 178);
+            this.gbPracownicy.Size = new System.Drawing.Size(493, 283);
             this.gbPracownicy.TabIndex = 3;
             this.gbPracownicy.TabStop = false;
             this.gbPracownicy.Text = "Pracownicy";

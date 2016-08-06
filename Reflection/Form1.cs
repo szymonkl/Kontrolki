@@ -68,7 +68,7 @@ namespace Reflection
             objectControlBuilder.BuildControlForObjectInGroupBox(financialData, gbFinanse);
             objectControlBuilder.BuildControlForObjectInGroupBox(favourites, gbUlubione);
             var controlBuilder = new ControlBuilder();
-            controlBuilder.CreateListViewInGroupBox(p1, gbPracownicy);
+            controlBuilder.CreateFilterableListView(p1, gbPracownicy);
            
             _person = p1;
 

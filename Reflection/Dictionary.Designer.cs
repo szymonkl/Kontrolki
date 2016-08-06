@@ -133,6 +133,15 @@ namespace Reflection {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Filtruj.
+        /// </summary>
+        internal static string Filter {
+            get {
+                return ResourceManager.GetString("Filter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Hobby.
         /// </summary>
         internal static string Hobby {

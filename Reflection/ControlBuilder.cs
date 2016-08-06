@@ -1,10 +1,17 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Resources;
 using System.Windows.Forms;
+
+using System.Data;
+using System.Globalization;
+using System.IO;
+
 
 namespace Reflection
 {
@@ -53,19 +60,30 @@ namespace Reflection
             
         }
 
+        
         public void CreateListViewInGroupBox(object controlObject, GroupBox groupBox)
         {
             ListView listView = new ListView();
             
             Type type = controlObject.GetType();
             var properties = type.GetProperties().ToList();
-            var property = properties.Find(p=>p.GetCustomAttribute<ControlsAttribute>().ControlType == ControlsAttribute.ControlTypes.ListView);
-            listView.Name = ControlNameBuilder<ListView>.BuildName(property.Name);
-            listView = CreateListView(controlObject, property);
+            var property =
+                properties.FirstOrDefault(
+                    predicate =>
+                        predicate.GetCustomAttribute<ControlsAttribute>().ControlType ==
+                        ControlsAttribute.ControlTypes.ListView ||
+                        predicate.GetCustomAttribute<ControlsAttribute>().ControlType ==
+                        ControlsAttribute.ControlTypes.FilterableListView);
+
+            if (property != null)
+            {
+                listView.Name = ControlNameBuilder<ListView>.BuildName(property.Name);
+                listView = CreateListView(controlObject, property);
+            }
             listView.BorderStyle = BorderStyle.Fixed3D;
             
             
-            listView.Size = new Size(groupBox.ClientSize.Width, groupBox.ClientSize.Height);
+            //listView.Size = new Size(groupBox.ClientSize.Width, groupBox.ClientSize.Height);
             listView.GridLines = true;
             listView.View = View.Details;
             listView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
@@ -75,23 +93,17 @@ namespace Reflection
 
         }
 
-
-
         private ListView CreateListView(object controlObject, PropertyInfo property)
         {
             ListView listView = new ListView();
-            if (_checkPropertyType.Invoke(property))
+            if (_checkPropertyType.Invoke(property) && _checkPropertyArguments.Invoke(property))
             {
-                if (property.PropertyType.GetGenericArguments().Length > 0)
-                {
                     CreateColumsInListView(property, listView);
                     FillListViewWithData(controlObject, property, listView);
-                }
             }
             return listView;
            
         }
-
         private static void CreateColumsInListView(PropertyInfo property, ListView listView)
         {
             Type type = property.PropertyType.GetGenericArguments()[0];
@@ -103,7 +115,6 @@ namespace Reflection
                 listView.Columns.Add(columnName);
             }
         }
-
         private static void FillListViewWithData(object controlObject, PropertyInfo property, ListView listView)
         {
             var listWithRowDataObject = property.GetValue(controlObject);
@@ -139,6 +150,8 @@ namespace Reflection
                 property.PropertyType.GetGenericTypeDefinition() == typeof(List<>) &&
                 property.PropertyType.GenericTypeArguments.Length > 0;
 
+        private readonly Predicate<PropertyInfo> _checkPropertyArguments =
+            property => property.PropertyType.GetGenericArguments().Length > 0;
 
         private static Label CreateLabel(PropertyInfo property)
         {
@@ -268,17 +281,9 @@ namespace Reflection
             if (typeof(TControlType) == typeof(ComboBox)) control = CreateDropDownList(controlObject, property);
             return control;
         }
+        
 
-
-        //public void AddEventToAllProperties(object controlObject)
-        //{
-        //    PropertyInfo[] properties = controlObject.GetType().GetProperties();
-        //    foreach (var property in properties)
-        //    {
-        //       var setMethod = property.GetSetMethod();
-              
-        //    }
-        //}
+         
         public void UpdateTextBoxes(object controlObject, GroupBox groupBox)
         {
             foreach (var property in controlObject.GetType().GetProperties())
@@ -286,7 +291,6 @@ namespace Reflection
                 UpdateTextBoxWithValues(controlObject, property, groupBox);
             }
         }
-
         private void UpdateTextBoxWithValues(object controlObject, PropertyInfo property, GroupBox groupBox)
         {
             var controls = groupBox.Controls.Find(ControlNameBuilder<TextBox>.BuildName(property.Name), true);
@@ -295,7 +299,6 @@ namespace Reflection
                 ((TextBox) controls[0]).Text = property.GetValue(controlObject).ToString();
             }
         }
-
         public void UpdateObjectFromTextBoxes(object targetObject, GroupBox groupBox)
         {
             var properies = targetObject.GetType().GetProperties();
@@ -326,7 +329,86 @@ namespace Reflection
             }
         }
 
+        public void CreateFilterableListView(object controlObject, GroupBox groupBox)
+        {
+            Type type = controlObject.GetType();
+            var properties = type.GetProperties().ToList();
+            var property = properties.Find(p => p.GetCustomAttribute<ControlsAttribute>().ControlType == ControlsAttribute.ControlTypes.FilterableListView);
+            if (_checkPropertyType.Invoke(property) && _checkPropertyArguments.Invoke(property))
+            {
+                //Create name combobox
+                Type listObjectType = property.PropertyType.GetGenericArguments()[0];
+                var objectProperties = listObjectType.GetProperties();
+                var dropDownListData = new SortedDictionary<string, string>();
+                foreach (var objectProperty in objectProperties)
+                {
+                    string propertyName = objectProperty.Name;
+                    string propertyDisplayName = objectProperty.GetCustomAttribute<NazwaAttribute>().DisplayName;
+                    dropDownListData.Add(propertyName, propertyDisplayName);
+                }
+                ComboBox nameComboBox = new ComboBox
+                {
+                    Name = ControlNameBuilder<ComboBox>.BuildFilterName(property.Name),
+                    DropDownStyle = ComboBoxStyle.DropDownList,
+                    DataSource = new BindingSource(dropDownListData, null),
+                    ValueMember = "Key",
+                    DisplayMember = "Value"
+                };
 
-        
+                //Create comparison combobox
+               
+                
+                //var resourceReader = new ResXResourceReader(Path.GetFullPath("ComparisonTypeDictionary.resx"));
+                ResourceSet resourceSet =
+                    ComparisonTypeDictionary.ResourceManager.GetResourceSet(CultureInfo.CurrentUICulture, true, true);
+
+                var comparisonTypeDictionary = new SortedDictionary<string, string>();
+                foreach (DictionaryEntry resource in resourceSet)
+                {
+                    comparisonTypeDictionary.Add(resource.Key.ToString(), resource.Value.ToString());
+                }
+                ComboBox comparisonCombobox = new ComboBox
+                {
+                    Name = ControlNameBuilder<ComboBox>.BuildFilterComparerName(property.Name),
+                    DropDownStyle = ComboBoxStyle.DropDownList,
+                    DataSource = new BindingSource(comparisonTypeDictionary, null),
+                    ValueMember = "Key",
+                    DisplayMember = "Value"
+                };
+
+                //Create value textbox
+                TextBox valueTextBox = new TextBox
+                {
+                    Name = ControlNameBuilder<TextBox>.BuildFilterValueName(property.Name)
+                };
+                //Create button
+                Button button = new Button
+                {
+                    Name = ControlNameBuilder<Button>.BuildFilterButtonName(property.Name),
+                    Text = Dictionary.Filter,
+                    AutoSize = true
+                };
+                button.Click += Button_Click;
+
+                
+                groupBox.Controls.Add(nameComboBox);
+                groupBox.Controls.Add(comparisonCombobox);
+                groupBox.Controls.Add(valueTextBox);
+                groupBox.Controls.Add(button);
+                ControlPositioner.ToLeft(nameComboBox, comparisonCombobox, valueTextBox, button);
+                
+            }
+
+
+
+            //CreateListViewInGroupBox(controlObject, groupBox);
+        }
+
+        private void Button_Click(object sender, EventArgs e)
+        {
+            //throw new NotImplementedException();
+        }
     }
 }
+
+

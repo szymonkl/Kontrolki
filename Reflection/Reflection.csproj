@@ -47,8 +47,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ComparisonTypeDictionary.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ComparisonTypeDictionary.resx</DependentUpon>
+    </Compile>
     <Compile Include="ControlBuilder.cs" />
     <Compile Include="ControlNameBuilder.cs" />
+    <Compile Include="ControlPositioner.cs" />
     <Compile Include="ControlsAttribute.cs" />
     <Compile Include="Dictionary.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -58,6 +64,7 @@
     <Compile Include="DisplayAttribute.cs" />
     <Compile Include="Employee.cs" />
     <Compile Include="Favourites.cs" />
+    <Compile Include="FilterCompariser.cs" />
     <Compile Include="FinancialData.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
@@ -71,6 +78,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="NazwaAttribute.cs" />
     <Compile Include="ValueChanger.cs" />
+    <EmbeddedResource Include="ComparisonTypeDictionary.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ComparisonTypeDictionary.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Dictionary.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Dictionary.Designer.cs</LastGenOutput>

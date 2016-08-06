@@ -6,7 +6,7 @@ namespace Reflection
     {
         public enum ControlTypes
         {
-            Label, TextBox, LabelTextbox, DropDownList, LabelDropDownList, Checkbox, LabelCheckBox, ListView
+            Label, TextBox, LabelTextbox, DropDownList, LabelDropDownList, Checkbox, LabelCheckBox, ListView, FilterableListView
         }
 
         public ControlTypes ControlType { get; set; }

@@ -42,7 +42,7 @@ namespace Reflection
         public bool Director { get; set; }
 
         [Nazwa(nameof(Dictionary.Employees))]
-        [Controls(ControlType = ControlsAttribute.ControlTypes.ListView)]
+        [Controls(ControlType = ControlsAttribute.ControlTypes.FilterableListView)]
         public List<Employee> Employees { get; set; }
 
 

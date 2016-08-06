@@ -1,4 +1,6 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace Reflection
 {
@@ -30,6 +32,10 @@ namespace Reflection
             if (typeof(T) == typeof(ListView))
             {
                 controlName = string.Concat("lv", propertyName);
+            }
+            if (typeof(T) == typeof(Button))
+            {
+                controlName = string.Concat("btn", propertyName);
             }
 
 
@@ -63,10 +69,32 @@ namespace Reflection
             {
                 propertyName = propertyName.Replace("cbx", string.Empty);
             }
+            if (typeof(T) == typeof(Button))
+            {
+                propertyName = propertyName.Replace("btn", string.Empty);
+            }
             return propertyName;
 
-
         }
+
+        public static string BuildFilterName(string propertyName)
+        {
+            return string.Concat(BuildName(propertyName), "FilterName");
+        }
+        public static string BuildFilterComparerName(string propertyName)
+        {
+            return string.Concat(BuildName(propertyName), "FilterComparer");
+        }
+        public static string BuildFilterValueName(string propertyName)
+        {
+            return string.Concat(BuildName(propertyName), "FilterValue");
+        }
+
+        public static string BuildFilterButtonName(string propertyName)
+        {
+            return string.Concat(BuildName(propertyName), "FilterButton");
+        }
+
 
     }
 }
