@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Windows.Forms;
 
 namespace Reflection
@@ -37,6 +36,10 @@ namespace Reflection
             {
                 controlName = string.Concat("btn", propertyName);
             }
+            if (typeof(T) == typeof(DateTimePicker))
+            {
+                controlName = String.Concat("dtp", propertyName);
+            }
 
 
             return controlName;
@@ -73,6 +76,12 @@ namespace Reflection
             {
                 propertyName = propertyName.Replace("btn", string.Empty);
             }
+            if (typeof(T) == typeof(DateTimePicker))
+            {
+                propertyName = propertyName.Replace("dtp", string.Empty);
+            }
+
+
             return propertyName;
 
         }

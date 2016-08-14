@@ -2,18 +2,32 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Resources;
 using System.Windows.Forms;
-using System.Globalization;
+using Reflection;
+using Label = System.Windows.Forms.Label;
 
 
-namespace Reflection
+namespace ControlMaker
 {
-    public class ControlBuilder 
+    public class ControlBuilder
     {
+
+        public static int VerticalDistance { get; set; } = -5;
+        public static int HorizontalDistance { get; set; } = 10;
+        public static int LeftMargin { get; set; } = 15;
+        public static int RightMargin { get; set; } = 20;
+        public static int TopMargin { get; set; } = 20;
+        public static int BottomMargin { get; set; } = 20;
+
+        public static int GroupBoxHeight = 25;
+        public static int GroupBoxWidth { get; set; } = 20;
+
+
         public Control BuildControlForProperty(object controlObject, PropertyInfo property)
         {
             var control = new Control();
@@ -45,8 +59,16 @@ namespace Reflection
                     case ControlsAttribute.ControlTypes.LabelCheckBox:
                         control = CreateLabelAndCheckBox(controlObject, property);
                         break;
+                    case ControlsAttribute.ControlTypes.DateTimePicker:
+                        control = CreateTimePicker(controlObject, property);
+                        break;
+                    case ControlsAttribute.ControlTypes.LabelDateTimePicker:
+                        control = CreateLabelTimePicker(controlObject, property);
+                        break;
+                    case ControlsAttribute.ControlTypes.TimeRangePicker:
+                        control = CreateTimeRangePicker(controlObject, property);
+                        break;
 
-                   
                 }
             }
             else
@@ -57,7 +79,38 @@ namespace Reflection
             
         }
 
-        
+        private static Control CreateTimeRangePicker(object controlObject, PropertyInfo property)
+        {
+            return TimeRangeBuilder.CreateTimeRangeControl(controlObject, property);
+        }
+
+        private  static Control CreateLabelTimePicker(object controlObject, PropertyInfo property)
+        {
+            var groupBox = new GroupBox();
+
+            groupBox.Name = ControlNameBuilder<GroupBox>.BuildName(property.Name);
+            if (property.PropertyType == typeof(DateTime))
+            {
+                groupBox = CreateControlGroup<Label, DateTimePicker>(controlObject, property); 
+            }
+
+            return groupBox;
+        }
+
+        private static Control CreateTimePicker(object controlObject, PropertyInfo property)
+        {
+            DateTimePicker dateTimePicker = new DateTimePicker();
+            dateTimePicker.Name = ControlNameBuilder<DateTimePicker>.BuildName(property.Name);
+            dateTimePicker.Format = DateTimePickerFormat.Time;
+            dateTimePicker.ShowUpDown = true;
+            if (property.PropertyType == typeof(DateTime))
+            {
+                dateTimePicker.Value = (DateTime)property.GetValue(controlObject); 
+            }
+            return dateTimePicker;
+        }
+
+
         public void CreateListViewInGroupBox(object controlObject, GroupBox groupBox)
         {
             ListView listView = new ListView();
@@ -280,14 +333,16 @@ namespace Reflection
             var control1 = CreateControl<TControlType1>(controlObject, property);
             var control2 = CreateControl<TControlType2>(controlObject, property);
            
-            var control1Location = new Point(groupBox.Padding.Left, groupBox.Padding.Top + 10);
-            var control2Location = new Point(control1Location.X + control1.Width, control1Location.Y);
+            var control1Location = new Point(LeftMargin, TopMargin);
+            var control2Location = new Point(LeftMargin + HorizontalDistance + control1.ClientSize.Width, control1Location.Y + VerticalDistance);
             control1.Location = control1Location;
             control2.Location = control2Location;
             groupBox.Controls.Add(control1);
             groupBox.Controls.Add(control2);
-            groupBox.AutoSize = true;
-            groupBox.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            groupBox.Height = control1.Height + GroupBoxHeight;
+            groupBox.Width = LeftMargin + control1.Width + HorizontalDistance + control2.Width + GroupBoxWidth +
+                             RightMargin;
+           
             return groupBox;
         }
         private static Control CreateControl<TControlType>(object controlObject, PropertyInfo property)
@@ -297,58 +352,17 @@ namespace Reflection
             if (typeof(TControlType) == typeof(TextBox)) control = CreateTextBox(controlObject, property);
             if(typeof(TControlType) == typeof(CheckBox)) control = CreateCheckBox(controlObject, property);
             if (typeof(TControlType) == typeof(ComboBox)) control = CreateDropDownList(controlObject, property);
+            if (typeof(TControlType) == typeof(DateTimePicker)) control = CreateTimePicker(controlObject, property);
+            
+            
             return control;
         }
-        
 
-         
-        public void UpdateTextBoxes(object controlObject, GroupBox groupBox)
-        {
-            foreach (var property in controlObject.GetType().GetProperties())
-            {
-                UpdateTextBoxWithValues(controlObject, property, groupBox);
-            }
-        }
-        private void UpdateTextBoxWithValues(object controlObject, PropertyInfo property, GroupBox groupBox)
-        {
-            var controls = groupBox.Controls.Find(ControlNameBuilder<TextBox>.BuildName(property.Name), true);
-            if (controls.Length > 0)
-            {
-                ((TextBox) controls[0]).Text = property.GetValue(controlObject).ToString();
-            }
-        }
-        public void UpdateObjectFromTextBoxes(object targetObject, GroupBox groupBox)
-        {
-            var properies = targetObject.GetType().GetProperties();
-            var allGroupBoxesControls = new List<Control>();
-            foreach (Control control in groupBox.Controls)
-            {
-                allGroupBoxesControls.AddRange(control.Controls.OfType<Control>());
-            }
-
-            foreach (Control control in allGroupBoxesControls)
-            {
-                if (control is TextBox)
-                {
-                   var property = properies.First(
-                        p => p.Name == ControlNameBuilder<TextBox>.GetPropertyNameFromControlName(control.Name));
-                    if (property != null)
-                    {
-                        if (property.PropertyType == typeof(string))
-                        {
-                            property.SetValue(targetObject, control.Text);
-                        }
-                        else if(property.PropertyType == typeof(int))
-                        {
-                            property.SetValue(targetObject, Convert.ToInt32(control.Text));
-                        }
-                    }
-                }
-            }
-        }
 
         private object _controlObject;
         private GroupBox _filterableGroupBox;
+        private readonly ViewUpdater _viewUpdater = new ViewUpdater();
+
         public void CreateFilterableListView(object controlObject, GroupBox groupBox)
         {
             _controlObject = controlObject;
@@ -405,7 +419,7 @@ namespace Reflection
                 Button button = new Button
                 {
                     Name = ControlNameBuilder<Button>.BuildFilterButtonName(property.Name),
-                    Text = Dictionary.Filter,
+                    //Text = ControlNames.Filter,
                     AutoSize = true
                 };
                 button.Click += Button_Click;
@@ -464,11 +478,6 @@ namespace Reflection
         private static string GetComparisonType(ComboBox cbComparison)
         {
             return cbComparison.SelectedValue.ToString();
-        }
-
-        private static string GetFilterValue(TextBox tbValue)
-        {
-            return tbValue.Text;
         }
 
         private static ComboBox GetPropertyCombobox(string propertyName, GroupBox groupBox)
