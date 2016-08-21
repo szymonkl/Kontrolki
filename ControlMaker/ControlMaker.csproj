@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BoolTime.cs" />
+    <Compile Include="BoolTimeViewUpdater.cs" />
     <Compile Include="CheckBoxTimePickerBuilder.cs" />
     <Compile Include="CheckBoxUpdater.cs" />
     <Compile Include="ComparisonTypeDictionary.Designer.cs">
@@ -63,6 +64,7 @@
     <Compile Include="IModelControlUpdater.cs" />
     <Compile Include="IModelUpdater.cs" />
     <Compile Include="IViewUpdater.cs" />
+    <Compile Include="ModelBoolTimeUpdater.cs" />
     <Compile Include="ModelCheckBoxUpdater.cs" />
     <Compile Include="ModelTextBoxUpdater.cs" />
     <Compile Include="ModelTimeRangeUpdater.cs" />

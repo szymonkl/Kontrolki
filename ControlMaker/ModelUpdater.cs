@@ -14,6 +14,7 @@ namespace ControlMaker
             UpdateObjectFromTextBoxes(targetObject,groupBox);
             UpdateObjectFromCheckboxes(targetObject, groupBox);
             UpdateObjectFromTimeRange(targetObject, groupBox);
+            
         }
 
         public  void UpdateObjectFromTextBoxes(object targetObject, GroupBox groupBox)
