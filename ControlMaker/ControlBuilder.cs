@@ -68,6 +68,9 @@ namespace ControlMaker
                     case ControlsAttribute.ControlTypes.TimeRangePicker:
                         control = CreateTimeRangePicker(controlObject, property);
                         break;
+                    case ControlsAttribute.ControlTypes.CheckBoxTimePicker:
+                        control = CreateCheckBoxTimePicker(controlObject, property);
+                        break;
 
                 }
             }
@@ -77,6 +80,11 @@ namespace ControlMaker
             }
             return control;
             
+        }
+
+        private Control CreateCheckBoxTimePicker(object controlObject, PropertyInfo property)
+        {
+            return CheckBoxTimePickerBuilder.CreateTimeRangeControl(controlObject, property);
         }
 
         private static Control CreateTimeRangePicker(object controlObject, PropertyInfo property)
@@ -254,7 +262,7 @@ namespace ControlMaker
         {
             TextBox textBox = new TextBox();
             textBox.Name = ControlNameBuilder<TextBox>.BuildName(property.Name);
-            textBox.Text = property.GetValue(controlObject).ToString();
+            textBox.Text = controlObject != null ? property.GetValue(controlObject).ToString() : string.Empty;
             return textBox;
             
         }

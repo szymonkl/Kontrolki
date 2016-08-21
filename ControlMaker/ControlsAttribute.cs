@@ -7,7 +7,7 @@ namespace Reflection
         public enum ControlTypes
         {
             Label, TextBox, LabelTextbox, DropDownList, LabelDropDownList, Checkbox, LabelCheckBox,
-            ListView, FilterableListView, DateTimePicker, LabelDateTimePicker, TimeRangePicker
+            ListView, FilterableListView, DateTimePicker, LabelDateTimePicker, TimeRangePicker, CheckBoxTimePicker
         }
 
         public ControlTypes ControlType { get; set; }

@@ -153,4 +153,43 @@
   <data name="Wentylator" xml:space="preserve">
     <value>Wentylator</value>
   </data>
+  <data name="AlarmowaMax" xml:space="preserve">
+    <value>Alarmowa MAX</value>
+  </data>
+  <data name="AlarmowaMin" xml:space="preserve">
+    <value>Alarmowa MIN</value>
+  </data>
+  <data name="GrzalkaOff" xml:space="preserve">
+    <value>Grzałka OFF</value>
+  </data>
+  <data name="GrzalkaOn" xml:space="preserve">
+    <value>Grzałka ON</value>
+  </data>
+  <data name="Karmienie1" xml:space="preserve">
+    <value>Karmienie 1</value>
+  </data>
+  <data name="Karmienie2" xml:space="preserve">
+    <value>Karmienie 2</value>
+  </data>
+  <data name="Karmienie3" xml:space="preserve">
+    <value>Karmienie 3</value>
+  </data>
+  <data name="Karmienie4" xml:space="preserve">
+    <value>Karmienie 4</value>
+  </data>
+  <data name="Karmienie5" xml:space="preserve">
+    <value>Karmienie 5</value>
+  </data>
+  <data name="Karmienie6" xml:space="preserve">
+    <value>Karmienie 6</value>
+  </data>
+  <data name="Korekta" xml:space="preserve">
+    <value>Korekta</value>
+  </data>
+  <data name="WentylatorOff" xml:space="preserve">
+    <value>Wentylator OFF</value>
+  </data>
+  <data name="WentylatorOn" xml:space="preserve">
+    <value>Wentylator ON</value>
+  </data>
 </root>

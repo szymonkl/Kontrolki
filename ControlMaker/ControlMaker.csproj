@@ -42,6 +42,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BoolTime.cs" />
+    <Compile Include="CheckBoxTimePickerBuilder.cs" />
     <Compile Include="CheckBoxUpdater.cs" />
     <Compile Include="ComparisonTypeDictionary.Designer.cs">
       <DependentUpon>ComparisonTypeDictionary.resx</DependentUpon>
@@ -83,7 +85,7 @@
       <LastGenOutput>ComparisonTypeDictionary.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="ControlNames.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>ControlNames.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>

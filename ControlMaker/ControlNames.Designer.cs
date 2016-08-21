@@ -36,7 +36,7 @@ namespace ControlMaker {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ControlMaker.ControlNames", typeof(ControlNames).Assembly);
@@ -51,12 +51,30 @@ namespace ControlMaker {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Alarmowa MAX.
+        /// </summary>
+        public static string AlarmowaMax {
+            get {
+                return ResourceManager.GetString("AlarmowaMax", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Alarmowa MIN.
+        /// </summary>
+        public static string AlarmowaMin {
+            get {
+                return ResourceManager.GetString("AlarmowaMin", resourceCulture);
             }
         }
         
@@ -75,6 +93,87 @@ namespace ControlMaker {
         public static string Grzalka {
             get {
                 return ResourceManager.GetString("Grzalka", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Grzałka OFF.
+        /// </summary>
+        public static string GrzalkaOff {
+            get {
+                return ResourceManager.GetString("GrzalkaOff", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Grzałka ON.
+        /// </summary>
+        public static string GrzalkaOn {
+            get {
+                return ResourceManager.GetString("GrzalkaOn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Karmienie 1.
+        /// </summary>
+        public static string Karmienie1 {
+            get {
+                return ResourceManager.GetString("Karmienie1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Karmienie 2.
+        /// </summary>
+        public static string Karmienie2 {
+            get {
+                return ResourceManager.GetString("Karmienie2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Karmienie 3.
+        /// </summary>
+        public static string Karmienie3 {
+            get {
+                return ResourceManager.GetString("Karmienie3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Karmienie 4.
+        /// </summary>
+        public static string Karmienie4 {
+            get {
+                return ResourceManager.GetString("Karmienie4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Karmienie 5.
+        /// </summary>
+        public static string Karmienie5 {
+            get {
+                return ResourceManager.GetString("Karmienie5", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Karmienie 6.
+        /// </summary>
+        public static string Karmienie6 {
+            get {
+                return ResourceManager.GetString("Karmienie6", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Korekta.
+        /// </summary>
+        public static string Korekta {
+            get {
+                return ResourceManager.GetString("Korekta", resourceCulture);
             }
         }
         
@@ -165,6 +264,24 @@ namespace ControlMaker {
         public static string Wentylator {
             get {
                 return ResourceManager.GetString("Wentylator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wentylator OFF.
+        /// </summary>
+        public static string WentylatorOff {
+            get {
+                return ResourceManager.GetString("WentylatorOff", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wentylator ON.
+        /// </summary>
+        public static string WentylatorOn {
+            get {
+                return ResourceManager.GetString("WentylatorOn", resourceCulture);
             }
         }
     }

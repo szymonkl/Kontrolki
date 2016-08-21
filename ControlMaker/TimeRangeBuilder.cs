@@ -31,52 +31,21 @@ namespace ControlMaker
                 bool isChecked = GetBoolValue(property, controlObject);
                 DateTime startTime = GetStartTime(property, controlObject);
                 DateTime stopTime = GetStopTime(property, controlObject);
-
-
-
-                //Creating groupbox
-
-                Attribute attribute = property.GetCustomAttribute<NazwaAttribute>();
-                groupBox.Text = attribute != null ? ((NazwaAttribute)attribute).DisplayName : property.Name;
-                groupBox.Name = ControlNameBuilder<GroupBox>.BuildName(property.Name);
-                groupBox.Height = ControlPositioner.TopMargin + CheckBoxHeight + ControlPositioner.BottomMargin;
-                groupBox.Width = ControlPositioner.LeftMargin + CheckBoxWidth + 2*ControlPositioner.HorizontalSpace +
-                                 StartPickerWidth + StopPickerWidth + ControlPositioner.RightMargin;
-                //Creating checkbox
-
-                CheckBox checkBox = new CheckBox();
-                checkBox.Name = ControlNameBuilder<CheckBox>.BuildName(_boolProperty.Name);
-                checkBox.Checked = isChecked;
-                checkBox.Height = CheckBoxHeight;
-                checkBox.Width = CheckBoxWidth;
-
-                //Creating start timepicker
-
-                DateTimePicker startTimePicker = new DateTimePicker();
-                startTimePicker.Name = ControlNameBuilder<DateTimePicker>.BuildName(_startTimeProperty.Name);
-                startTimePicker.Value = startTime;
-                startTimePicker.Format = DateTimePickerFormat.Time;
-                startTimePicker.ShowUpDown = true;
-                startTimePicker.Height = StartPickerHeight;
-                startTimePicker.Width = StartPickerWidth;
-
-                //Creating stop timepicker
-
-                DateTimePicker stopTimePicker = new DateTimePicker();
-                stopTimePicker.Name = ControlNameBuilder<DateTimePicker>.BuildName(_stopTimeProperty.Name);
-                stopTimePicker.Value = stopTime;
-                stopTimePicker.Format = DateTimePickerFormat.Time;
-                stopTimePicker.ShowUpDown = true;
-                stopTimePicker.Height = StopPickerHeight;
-                stopTimePicker.Width = StopPickerWidth;
-
-                //Adding controls
-
+                
+                CreateSimpleGroupBox(property, groupBox);
+                
+                var checkBox = CreateCheckBox(isChecked);
+                
+                var startTimePicker = CreateStartTimePicker(startTime);
+                
+                var stopTimePicker = CreateStopTimePicker(stopTime);
+                
                 groupBox.Controls.Add(checkBox);
                 groupBox.Controls.Add(startTimePicker);
                 groupBox.Controls.Add(stopTimePicker);
                 
-                // Setting controls positions
+                //Setting control position
+
                 Control[] controls = new Control[3];
                 controls[0] = checkBox;
                 controls[1] = startTimePicker;
@@ -88,15 +57,57 @@ namespace ControlMaker
                 ControlPositioner.VerticalSpace = 20;
                 
                 ControlPositioner.ToLeft(controls);
-
-
-
+                
             }
 
             return groupBox;
 
 
 
+        }
+
+        private static void CreateSimpleGroupBox(PropertyInfo property, GroupBox groupBox)
+        {
+            Attribute attribute = property.GetCustomAttribute<NazwaAttribute>();
+            groupBox.Text = attribute != null ? ((NazwaAttribute) attribute).DisplayName : property.Name;
+            groupBox.Name = ControlNameBuilder<GroupBox>.BuildName(property.Name);
+            groupBox.Height = ControlPositioner.TopMargin + CheckBoxHeight + ControlPositioner.BottomMargin;
+            groupBox.Width = ControlPositioner.LeftMargin + CheckBoxWidth + 2*ControlPositioner.HorizontalSpace +
+                             StartPickerWidth + StopPickerWidth + ControlPositioner.RightMargin;
+        }
+
+        private static CheckBox CreateCheckBox(bool isChecked)
+        {
+            CheckBox checkBox = new CheckBox();
+            checkBox.Name = ControlNameBuilder<CheckBox>.BuildName(_boolProperty.Name);
+            checkBox.Checked = isChecked;
+            checkBox.Height = CheckBoxHeight;
+            checkBox.Width = CheckBoxWidth;
+            return checkBox;
+        }
+
+        private static DateTimePicker CreateStartTimePicker(DateTime startTime)
+        {
+            DateTimePicker startTimePicker = new DateTimePicker();
+            startTimePicker.Name = ControlNameBuilder<DateTimePicker>.BuildName(_startTimeProperty.Name);
+            startTimePicker.Value = startTime;
+            startTimePicker.Format = DateTimePickerFormat.Time;
+            startTimePicker.ShowUpDown = true;
+            startTimePicker.Height = StartPickerHeight;
+            startTimePicker.Width = StartPickerWidth;
+            return startTimePicker;
+        }
+
+        private static DateTimePicker CreateStopTimePicker(DateTime stopTime)
+        {
+            DateTimePicker stopTimePicker = new DateTimePicker();
+            stopTimePicker.Name = ControlNameBuilder<DateTimePicker>.BuildName(_stopTimeProperty.Name);
+            stopTimePicker.Value = stopTime;
+            stopTimePicker.Format = DateTimePickerFormat.Time;
+            stopTimePicker.ShowUpDown = true;
+            stopTimePicker.Height = StopPickerHeight;
+            stopTimePicker.Width = StopPickerWidth;
+            return stopTimePicker;
         }
 
         private static bool IsValid(PropertyInfo property)
